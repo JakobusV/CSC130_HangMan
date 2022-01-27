@@ -1,1 +1,1 @@
-print("Fuck Yeah")
+from graphics import *
