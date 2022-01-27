@@ -1,8 +1,13 @@
 from graphics import *
+from win32api import GetSystemMetrics
 
+width = GetSystemMetrics(0)
+height = GetSystemMetrics(1)
+width -= width/9
+height -= height/6
 
 def main():
-    win = GraphWin('Face', 400, 300) # give title and dimensions
+    win = GraphWin('Face', width, height) # give title and dimensions
 
     head = Circle(Point(40,100), 25) # set center and radius
     head.setFill("yellow")
@@ -23,9 +28,10 @@ def main():
     label = Text(Point(100, 120), 'A face')
     label.draw(win)
 
-    message = Text(Point(win.getWidth()/2, 20), 'Click anywhere to quit.')
+    message = Text(Point(win.getWidth()/2, 20), 'Hangman')
     message.draw(win)
-    win.getMouse()
-    win.close()
+    while(True):
+        win.getMouse()
+    #win.close()
 
 main()
