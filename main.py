@@ -1,5 +1,3 @@
-def function():
-    thing = "some joe mama"
-    print(thing)
+listOf4Letter = {"Hard", "Ship", "Game", ""  }
+print(listOf4Letter)
 
-function()
