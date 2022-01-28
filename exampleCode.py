@@ -53,7 +53,7 @@ class objectDefinition:
 
 #create an object defined by the class
 #the parameter is used in the constructor. not as "self", but as "name". "self" just determines object held properties/ variables
-newObject = objectDefinition("Joe")
+newObject = objectDefinition("Luigi")
 
 #have an object use a function that it owns
 newObject.doAThing()
