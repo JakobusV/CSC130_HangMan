@@ -9,7 +9,7 @@ listOf5Letter = {"Apple","Alone","Beach","Beams","Clock","China","Cream", "Dream
 "Earth","Enemy","Error","Final","Force","Glass","Guide","Heart","Horse","Image","Index","Japan",
 "Judge","Knife","Level","Light","Major","Metal","Music","Night","North","Offer","Order","Peace","Price",
 "Peach","Queen","Radio","River","Scene","Shock","Space","Sugar","Theme","Trust","Union","Unity","Value",
-"Video","Waste","Watch","Youth","Zebras"}
+"Video","Waste","Watch","Youth","Zebra"}
 #print(listOf5Letter)
 
 
@@ -24,3 +24,9 @@ def getListOffDifficulty(diffi):
         return listOf5Letter
     if(diffi == "hard"):
         return listO6Letter
+
+def getRandomWord(dict):
+    listOfWords = list(dict)
+    randomWord = random.choice(listOfWords)
+    return randomWord
+    #print(randomWord)
