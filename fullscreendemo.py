@@ -46,6 +46,9 @@
 
 import tkinter as tk
 from tkinter import font
+from tkinter.ttk import PanedWindow
+
+playerProgress = "___"
 
 def onKeyPress(event):
     if (event.char.isalpha()):
@@ -58,7 +61,12 @@ root.overrideredirect(False)
 root.attributes('-fullscreen',True)
 
 lblGuessChar = tk.Label(root, text="", font=('', 72))
-lblGuessChar.place(relx = 0.5,rely = 0.5,anchor = 'center')
+lblGuessChar.place(relx = 0.5,rely = 0.5, anchor='center')
+
+pnlPProgress = PanedWindow(root, orient="horizontal")
+for char in playerProgress:
+    
+    pass
 
 root.bind('<KeyPress>', onKeyPress)
 root.mainloop()
