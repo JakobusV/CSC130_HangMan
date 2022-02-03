@@ -1,3 +1,4 @@
-#from wordBank import *
-#listOfWords = getListOffDifficulty("hard")
-#getRandomWord(listOfWords)
+from wordBank import *
+
+listOfWords = getListOffDifficulty("hard")
+getRandomWord(listOfWords)

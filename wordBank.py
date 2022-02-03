@@ -2,7 +2,8 @@ import random
 
 
 listOf4Letter = {"Hard", "Ship", "Game", "Week", "June", "fart", "poop", "Wall", "Hole", "Nail", 
-"Star", "Jeff", "Ring", "Tree", "Ball", "Ammo", "Four", "Fire", "Girl", "Jazz" }
+"Star", "Jeff", "Ring", "Tree", "Ball", "Ammo", "Four", "Fire", "Girl", "Jazz", "File", "Dart", "Page", 
+"Sock", "Hate", "Four", "Five", "Main", "Link", "Ammo", "Band", "Case", "Shoe" }
 #print(listOf4Letter)
 
 listOf5Letter = {"Apple","Alone","Beach","Beams","Clock","China","Cream", "Dream","Drive", 
@@ -28,5 +29,5 @@ def getListOffDifficulty(diffi):
 def getRandomWord(dict):
     listOfWords = list(dict)
     randomWord = random.choice(listOfWords)
+    print(randomWord + "!!!!!!!!!!!!!!!!!!!!!")
     return randomWord
-    #print(randomWord)
