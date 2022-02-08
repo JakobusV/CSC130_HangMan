@@ -9,9 +9,11 @@ class Letter():
         self.relx = relx
         self.rely = rely
 
-        print("letter made")
+        self.draw_letter()
 
-    def display_letter(self):
+        print("letter made")
+        
+    def draw_letter(self):
         pass
     
 class Blank_Space:
