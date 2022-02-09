@@ -49,13 +49,28 @@ from cgitb import text
 import tkinter as tk
 from tkinter import font
 from tkinter.ttk import PanedWindow
+import wordBank
 
 def getDifficulty():
-    return 1;
+    return "easy";
+
+def ballCheck(answer, currentProgress, guess):
+    word = currentProgress
+    for i in range(len(answer)):
+        if (currentProgress[i] == "_"):
+            if (answer[i] == guess):
+                currentProgress[i] = guess
+    return word
+
+progress = "_ _ _ _"
+theWord = wordBank.getRandomWord(wordBank.getListOffDifficulty(getDifficulty()))
 
 def onKeyPress(event):
     if (event.char.isalpha()):
-        lblGuessChar.config(text=event.char.upper())
+        guess = event.char.upper()
+        lblGuessChar.config(text=guess)
+        results = ballCheck(theWord, progress, guess)
+        lblBlanks.config(text=results)
 
 root = tk.Tk()
 
@@ -65,6 +80,9 @@ root.attributes('-fullscreen',True)
 
 lblGuessChar = tk.Label(root, text="", font=('', 72))
 lblGuessChar.place(relx = 0.5,rely = 0.5, anchor='center')
+
+lblBlanks = tk.Label(root, text=progress, font=('', 60))
+lblBlanks.place(relx=0.5, rely=0.8, anchor='center')
 
 pnlPProgress = PanedWindow(root, orient="horizontal")
 
