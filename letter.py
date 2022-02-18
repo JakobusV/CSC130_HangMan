@@ -1,4 +1,4 @@
-from phrase import *
+from game import *
 
 blank_spaces = []
 

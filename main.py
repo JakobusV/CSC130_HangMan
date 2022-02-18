@@ -1,22 +1,38 @@
 from graphics import *
-from letter import *
+from phrase import *
 
 correct_guess = False
 
-blank_space = Blank_Space("h", 0)
-blank_space = Blank_Space("e", 1)
-blank_space = Blank_Space("l", 2)
-blank_space = Blank_Space("l", 3)
-blank_space = Blank_Space("o", 4)
+guessed_input = "a"
 
-for b in blank_spaces:
-    print(str(b))
-    was_guess_correct = b.was_letter_guessed("d")
-    if was_guess_correct == True:
-        correct_guess = True
+def unique_guess(v):
+    for i in list_of_letters_guessed:
+        print(i + " " + v)
+        if(i == v):
+            return False
+    return True
 
-if correct_guess == False:
-    lives -= 1
-    print(lives)
+input_invalid = False
 
-print(correct_guess)
+iter = 0
+while iter < 3:
+    if unique_guess(guessed_input):
+        for b in blank_spaces:
+            print(str(b))
+
+            was_guess_correct = b.was_letter_guessed(guessed_input)
+            list_of_letters_guessed.append(guessed_input)
+            
+            if was_guess_correct == True:
+                correct_guess = True
+    else:
+        print("already guessed")
+        input_invalid = True
+
+    if input_invalid == False and correct_guess == False:
+        lives -= 1
+        print(lives)
+    
+    iter += 1
+
+print(lives)

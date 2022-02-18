@@ -1,9 +1,9 @@
 from wordBank import *
 
-list_of_letters_used = []
-
 difficulty_input = "easy"
-difficulties = {"easy": 10, "medium" : 7, "hard" : 3}
-lives = difficulties[difficulty_input]
+
+list_of_letters_guessed = []
+
+lives = 5
 
 print(lives)
