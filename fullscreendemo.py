@@ -1,95 +1,113 @@
-# # importing tkinter for gui
-# import tkinter as tk
-# from turtle import width
-# from click import command
-
-# def play():
-#     print("Hello mama")
-#     # setting attribute
-#     window.attributes('-fullscreen', True)
-#     window.title("Hangman2")
-#     # creating text label to display on window screen
-#     label = tk.Label(window, text="Hangman2!")
-#     label.pack()
-#     window.mainloop()
-
-# def onKeyPress(event):
-#     label.insert('end', 'You pressed %s\n' % (event.char, ))
-
-# # creating window
-# window = tk.Tk()
-
-# # setting attribute
-# window.attributes('-fullscreen', True)
-# window.title("Hangman")
-
-# # creating text label to display on window screen
-# label = tk.Label(window, text="Hangman!")
-# label.pack()
-
-# # creating button
-# button = tk.Button(
-#     text="Click me!",
-#     width=10,
-#     height=2,
-#     bg="white",
-#     fg="black",
-#     command=play
-# )
-# button.pack()
-
-# # creating text box to enter into
-# entry = tk.Entry(fg="white", bg="black", width=50, justify="center", font=('Georgia 32'))
-# entry.pack()
-
-# window.mainloop()
-
-from cProfile import label
 from cgitb import text
+from glob import glob
 import tkinter as tk
 from tkinter import font
 from tkinter.ttk import PanedWindow
+from unicodedata import name
+from click import command
+
+from sqlalchemy import null
 import wordBank
 
-def getDifficulty():
-    return "easy";
+newGameBool = True
+allLabels = []
+progress = {}
+theWord = wordBank.getRandomWord(wordBank.getListOffDifficulty("hard")).lower()
+hp = 5
+canvas1 = null
 
-def ballCheck(answer, currentProgress, guess):
-    word = currentProgress
-    for i in range(len(answer)):
-        if (currentProgress[i] == "_"):
-            if (answer[i] == guess):
-                currentProgress[i] = guess
-    return word
+for letter in theWord:
+    progress[letter] = False
+print(progress)
 
-progress = "_ _ _ _"
-theWord = wordBank.getRandomWord(wordBank.getListOffDifficulty(getDifficulty()))
+def ballCheck(guess):
+    for letter in theWord:
+        if (guess == letter):
+            progress[letter] = letter
+            return True
+
+def drawBlanks():
+    if (newGameBool):
+        spacing = 0.1
+        for letter in theWord:
+            lbl = tk.Label(canvas1, text="_", font=('', 64))
+            lbl.place(relx = spacing,rely = 0.95, anchor='s')
+            allLabels.append(lbl);
+            spacing += 0.08
+    else:
+        currentLabel = 0
+        for letter in theWord:
+            LabelText = "_"
+            if(progress[letter]):
+                LabelText = letter.upper()
+            allLabels[currentLabel].config(text=LabelText)
+            currentLabel += 1
+
 
 def onKeyPress(event):
     if (event.char.isalpha()):
-        guess = event.char.upper()
-        lblGuessChar.config(text=guess)
-        results = ballCheck(theWord, progress, guess)
-        lblBlanks.config(text=results)
+        guess = event.char.lower()
+        global lblGuessChar
+        lblGuessChar.config(text=guess.upper())
+        iscorrect = ballCheck(guess)
+        drawBlanks()
+        if (not iscorrect):
+            global hp, bg
+            hp = hp - 1
+            bg.config(file = "images/"+ str(hp) +".png")
+            bg = bg.subsample(2)
+            canvas1.create_image( 30, 40, image = bg, anchor = "nw")
+
+
+def openNewWindow():
+    roott = tk.Toplevel(root)
+    roott.attributes('-fullscreen',True)
+    hp = 5
+    bg = tk.PhotoImage(file = "images/"+ str(hp) +".png")
+    bg = bg.subsample(2)
+    canvas1 = tk.Canvas(roott)
+    canvas1.pack(fill = "both", expand = True)
+    canvas1.create_image( 30, 40, image = bg, anchor = "nw")
+    lblGuessChar = tk.Label(roott, text="", font=('', 72))
+    lblGuessChar.place(relx = 0.9,rely = 0.95, anchor='s')
+    pnlProgress = PanedWindow(canvas1, orient="horizontal")
+    # lblCheat = tk.Label(root, text=theWord, font=('', 24))
+    # lblCheat.pack()
+    drawBlanks()
+    newGameBool=False
+    roott.bind('<KeyPress>', onKeyPress)
+    roott.mainloop()
 
 root = tk.Tk()
-
-root.overrideredirect(True)
-root.overrideredirect(False)
 root.attributes('-fullscreen',True)
+bg = tk.PhotoImage(file = "images/"+ str(hp) +".png")
+bg = bg.subsample(2)
+canvas1 = tk.Canvas(root)
+canvas1['bg'] = 'black'
+canvas1.pack(fill = "both", expand = True)
+canvas1.create_image( 30, 40, image = bg, anchor = "nw")
 
-lblGuessChar = tk.Label(root, text="", font=('', 72))
-lblGuessChar.place(relx = 0.5,rely = 0.5, anchor='center')
+prompt = tk.Label(root, text="Hangman", fg='orange', bg='green', font=('Helvetica', 72, 'bold'), borderwidth=20, relief='ridge')
+prompt.place(relx=0.5, rely=0.4, anchor='center')
+prompt = tk.Label(root, text="Choose Difficulty", fg='green', bg='#e77feb', font=('', 24), borderwidth=5, relief='ridge')
+prompt.place(relx=0.5, rely=0.55, anchor='center')
+choices = ['Easy', 'Medium', 'Hard']
+variable = tk.StringVar(root)
+variable.set('Medium')
+w = tk.OptionMenu(root, variable, *choices)
+b = tk.Button(root, text="Play!", command=openNewWindow)
+w.place(relx=0.48, rely=0.6, anchor='center')
+b.place(relx=0.53, rely=0.6, anchor='center')
 
-lblBlanks = tk.Label(root, text=progress, font=('', 60))
-lblBlanks.place(relx=0.5, rely=0.8, anchor='center')
+# lblGuessChar = tk.Label(root, text="", font=('', 72))
+# lblGuessChar.place(relx = 0.9,rely = 0.95, anchor='s')
+# pnlProgress = PanedWindow(canvas1, orient="horizontal")
+# # lblCheat = tk.Label(root, text=theWord, font=('', 24))
+# # lblCheat.pack()
+# drawBlanks()
 
-pnlPProgress = PanedWindow(root, orient="horizontal")
-
-root.bind('<KeyPress>', onKeyPress)
+newGameBool=False
+# root.bind('<KeyPress>', onKeyPress)
 root.mainloop()
 
-# label = tk.Label(root, background='black', foreground='white', text="You guessed:")
-# label.pack()
-# lblGuess = tk.Text(root, background='black', foreground='white', font=('Comic Sans MS', 12))
-# lblGuess.pack()
+#https://stackoverflow.com/questions/44790449/making-tkinter-wait-untill-button-is-pressed
