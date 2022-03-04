@@ -1,31 +1,22 @@
 from graphics import *
+from letter import *
 
+correct_guess = False
 
-def main():
-    win = GraphWin('Face', 400, 300) # give title and dimensions
+blank_space = Blank_Space("h", 0)
+blank_space = Blank_Space("e", 1)
+blank_space = Blank_Space("l", 2)
+blank_space = Blank_Space("l", 3)
+blank_space = Blank_Space("o", 4)
 
-    head = Circle(Point(40,100), 25) # set center and radius
-    head.setFill("yellow")
-    head.draw(win)
+for b in blank_spaces:
+    print(str(b))
+    was_guess_correct = b.was_letter_guessed("d")
+    if was_guess_correct == True:
+        correct_guess = True
 
-    eye1 = Circle(Point(30, 105), 5)
-    eye1.setFill('blue')
-    eye1.draw(win)
+if correct_guess == False:
+    lives -= 1
+    print(lives)
 
-    eye2 = Line(Point(45, 105), Point(55, 105)) # set endpoints
-    eye2.setWidth(3)
-    eye2.draw(win)
-
-    mouth = Oval(Point(30, 90), Point(50, 85)) # set corners of bounding box
-    mouth.setFill("red")
-    mouth.draw(win)
-
-    label = Text(Point(100, 120), 'A face')
-    label.draw(win)
-
-    message = Text(Point(win.getWidth()/2, 20), 'Click anywhere to quit.')
-    message.draw(win)
-    win.getMouse()
-    win.close()
-
-main()
+print(correct_guess)
