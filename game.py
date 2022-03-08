@@ -63,7 +63,7 @@ def onKeyPress(event):
             
             
             lbl = tk.Label(canvas1, text =guess,font =('',20))
-            lbl.place(relx= random.uniform(0.1,0.9),rely=random.uniform(0.2,0.2), anchor='s')
+            lbl.place(relx= random.uniform(0.1,0.9),rely=random.uniform(0.2,0.10), anchor='s')
             previousGuesses.append(lbl);
            
             #global hp, bg
