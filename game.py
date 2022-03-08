@@ -4,10 +4,14 @@ import tkinter as tk
 from tkinter import font
 from tkinter.ttk import PanedWindow
 from unicodedata import name
+
+from sqlalchemy import false
 import wordBank, sys
+import random
 
 newGameBool = True
 allLabels = []
+previousGuesses=[]
 progress = {}
 theWord = wordBank.getRandomWord(wordBank.getListOffDifficulty(sys.argv[1])).lower()
 hp = 5
@@ -32,6 +36,10 @@ def drawBlanks():
             lbl.place(relx = spacing,rely = 0.95, anchor='s')
             allLabels.append(lbl);
             spacing += 0.08
+            lbl = tk.Label(canvas1, text ='_',font =('',20))
+            #lbl.place(relx= spacing,rely=0.30, anchor='s')
+            previousGuesses.append(lbl);
+            spacing += 0.10
     else:
         currentLabel = 0
         for letter in theWord:
@@ -40,27 +48,53 @@ def drawBlanks():
                 LabelText = letter.upper()
             allLabels[currentLabel].config(text=LabelText)
             currentLabel += 1
+    
+
+
 
 
 def onKeyPress(event):
-    global gameover
-    if not gameover:
-        if (event.char.isalpha()):
-            guess = event.char.lower()
-            global lblGuessChar
-            lblGuessChar.config(text=guess.upper())
-            iscorrect = ballCheck(guess)
-            drawBlanks()
-            if (not iscorrect):
-                global hp, bg
-                hp = hp - 1
-                bg.config(file = "images/"+ str(hp) +".png")
-                bg = bg.subsample(2)
-                canvas1.create_image( 30, 40, image = bg, anchor = "nw")
-                if hp == 0:
-                    gameover = True
-                    lblCheat = tk.Label(root, text=theWord.upper(), font=('', 32, "bold"), bg="black", fg="red")
-                    lblCheat.pack()
+    if (event.char.isalpha()):
+        guess = event.char.lower()
+        global lblGuessChar
+        lblGuessChar.config(text=guess.upper())
+        iscorrect = ballCheck(guess)
+        drawBlanks()
+        if (not iscorrect):
+            
+            
+            lbl = tk.Label(canvas1, text =guess,font =('',20))
+            lbl.place(relx= random.uniform(0.1,0.9),rely=random.uniform(0.2,0.2), anchor='s')
+            previousGuesses.append(lbl);
+           
+            #global hp, bg
+            #hp = hp - 1
+           # bg.config(file = "images/"+ str(hp) +".png")
+           # bg = bg.subsample(2)
+            #canvas1.create_image( 30, 40, image = bg, anchor = "nw")
+
+
+
+
+
+def openNewWindow():
+    roott = tk.Toplevel(root)
+    roott.attributes('-fullscreen',True)
+    hp = 5
+    bg = tk.PhotoImage(file = "images/"+ str(hp) +".png")
+    bg = bg.subsample(2)
+    canvas1 = tk.Canvas(roott)
+    canvas1.pack(fill = "both", expand = True)
+    canvas1.create_image( 30, 40, image = bg, anchor = "nw")
+    lblGuessChar = tk.Label(roott, text="", font=('', 72))
+    lblGuessChar.place(relx = 0.9,rely = 0.95, anchor='s')
+    pnlProgress = PanedWindow(canvas1, orient="horizontal")
+    # lblCheat = tk.Label(root, text=theWord, font=('', 24))
+    # lblCheat.pack()
+    drawBlanks()
+    newGameBool=False
+    roott.bind('<KeyPress>', onKeyPress)
+    roott.mainloop()
 
 root = tk.Tk()
 root.attributes('-fullscreen',True)
