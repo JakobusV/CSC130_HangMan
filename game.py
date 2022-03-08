@@ -59,7 +59,7 @@ def onKeyPress(event):
                 canvas1.create_image( 30, 40, image = bg, anchor = "nw")
                 if hp == 0:
                     gameover = True
-                    lblCheat = tk.Label(root, text=theWord, font=('', 24))
+                    lblCheat = tk.Label(root, text=theWord.upper(), font=('', 32, "bold"), bg="black", fg="red")
                     lblCheat.pack()
 
 root = tk.Tk()
@@ -80,4 +80,5 @@ drawBlanks()
 
 newGameBool=False
 root.bind('<KeyPress>', onKeyPress)
+root.configure(bg="black")
 root.mainloop()
