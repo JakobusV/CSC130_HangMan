@@ -5,6 +5,10 @@ import os
 win = Tk()
 win.geometry("560x320")
 
+bg = PhotoImage(file = "images/dryland.png")
+lbl = Label(win, image=bg )
+lbl.place(x=0, y=0)
+
 def start_window():
     dif = variable.get().lower()
 
@@ -23,9 +27,5 @@ variable = StringVar(win)
 variable.set(choices[0])
 option_menu = OptionMenu(win, variable, *choices).pack(pady=5)
 ttk.Button(win, text="Play!", command=start_window).pack()
-
-bg = PhotoImage(file = "images/dryland.png")
-
-win.configure(background=bg)
 
 win.mainloop()
