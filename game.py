@@ -16,6 +16,7 @@ progress = {}
 theWord = wordBank.getRandomWord(wordBank.getListOffDifficulty(sys.argv[1])).lower()
 hp = 5
 canvas1 = None
+gameover = False
 
 for letter in theWord:
     progress[letter] = False
@@ -97,34 +98,21 @@ def openNewWindow():
 
 root = tk.Tk()
 root.attributes('-fullscreen',True)
-bakgr = tk.PhotoImage(file = "images/"+ str(hp) +".png")
-bakgr = bakgr.subsample(2)
+bg = tk.PhotoImage(file = "images/"+ str(hp) +".png")
+bg = bg.subsample(2)
 canvas1 = tk.Canvas(root)
 canvas1['bg'] = 'black'
 canvas1.pack(fill = "both", expand = True)
-canvas1.create_image( 30, 40, image = bakgr, anchor = "nw")
-
-# prompt = tk.Label(root, text="Hangman", fg='orange', bg='green', font=('Helvetica', 72, 'bold'), borderwidth=20, relief='ridge')
-# prompt.place(relx=0.5, rely=0.4, anchor='center')
-# prompt = tk.Label(root, text="Choose Difficulty", fg='green', bg='#e77feb', font=('', 24), borderwidth=5, relief='ridge')
-# prompt.place(relx=0.5, rely=0.55, anchor='center')
-# choices = ['Easy', 'Medium', 'Hard']
-# variable = tk.StringVar(root)
-# variable.set('Medium')
-# w = tk.OptionMenu(root, variable, *choices)
-# b = tk.Button(root, text="Play!", command=openNewWindow)
-# w.place(relx=0.48, rely=0.6, anchor='center')
-# b.place(relx=0.53, rely=0.6, anchor='center')
+canvas1.create_image( 30, 40, image = bg, anchor = "nw")
 
 lblGuessChar = tk.Label(root, text="", font=('', 72))
 lblGuessChar.place(relx = 0.9,rely = 0.95, anchor='s')
 pnlProgress = PanedWindow(canvas1, orient="horizontal")
-lblCheat = tk.Label(root, text=theWord, font=('', 24))
-lblCheat.pack()
+# lblCheat = tk.Label(root, text=theWord, font=('', 24))
+# lblCheat.pack()
 drawBlanks()
 
 newGameBool=False
 root.bind('<KeyPress>', onKeyPress)
+root.configure(bg="black")
 root.mainloop()
-
-#https://stackoverflow.com/questions/44790449/making-tkinter-wait-untill-button-is-pressed
