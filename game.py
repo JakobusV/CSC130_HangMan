@@ -5,7 +5,7 @@ from tkinter import font
 from tkinter.ttk import PanedWindow
 from unicodedata import name
 
-from sqlalchemy import false
+#from sqlalchemy import false
 import wordBank, sys
 import random
 
@@ -65,6 +65,13 @@ def onKeyPress(event):
             if hp == 0:
                 lblCheat = tk.Label(root, text=theWord.upper(), font=('', 32, "bold"), bg="black", fg="red")
                 lblCheat.pack()
+                lblGameOver = tk.Label(canvas1, text="GAME OVER, YOU LOSE", font=('',54))
+                lblGameOver.place(relx=0.37, rely=0.5, anchor="nw")
+
+                
+
+                
+
 
 root = tk.Tk()
 root.attributes('-fullscreen',True)
