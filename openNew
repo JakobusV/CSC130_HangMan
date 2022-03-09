@@ -11,6 +11,10 @@ from soundcenter import play_sound_file
 win = Tk()
 win.geometry("560x320")
 
+bg = PhotoImage(file = "images/dryland.png")
+lbl = Label(win, image=bg )
+lbl.place(x=0, y=0)
+
 def start_window():
     dif = variable.get().lower()
 
@@ -22,8 +26,8 @@ def start_window():
     else:
         os.system('python game.py easy')
 
-Label(win, text= "Hangman", fg='orange', bg='green', font=('Helvetica', 72, 'bold'), borderwidth=20, relief='ridge').pack(pady=10)
-Label(win, text="Choose Difficulty", fg='green', bg='#e77feb', font=('', 24), borderwidth=5, relief='ridge').pack(pady=5)
+Label(win, text= "Hangman", fg='#208722', bg='#ff9900', font=('Gothic', 72, 'bold'), borderwidth=20, relief='ridge').pack(pady=10)
+Label(win, text="Choose Difficulty", fg='#870700', bg='#616161', font=('Gothic', 24), borderwidth=5, relief='ridge').pack(pady=5)
 choices = ['Easy', 'Medium', 'Hard']
 variable = StringVar(win)
 variable.set(choices[0])
