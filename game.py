@@ -4,11 +4,15 @@ import tkinter as tk
 from tkinter import font
 from tkinter.ttk import PanedWindow
 from unicodedata import name
+import os
 
 from sqlalchemy import false
+# from soundcenter import play_sound_file
 import wordBank, sys
 import random
 
+
+# play_sound_file("main")
 newGameBool = True
 allLabels = []
 previousGuesses=[]
