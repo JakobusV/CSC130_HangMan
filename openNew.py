@@ -1,9 +1,12 @@
 from tkinter import *
 from tkinter import ttk
 import os
+from soundcenter import *
 
 win = Tk()
 win.geometry("560x320")
+
+playfilesound("sounds\\1.mp3")
 
 def start_window():
     dif = variable.get().lower()
