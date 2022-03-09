@@ -4,11 +4,14 @@ import tkinter as tk
 from tkinter import font
 from tkinter.ttk import PanedWindow
 from unicodedata import name
+import os
 
-#from sqlalchemy import false
+# from soundcenter import play_sound_file
 import wordBank, sys
 import random
 
+
+# play_sound_file("main")
 newGameBool = True
 allLabels = []
 previousGuesses=[]
@@ -17,6 +20,7 @@ theWord = wordBank.getRandomWord(wordBank.getListOffDifficulty(sys.argv[1])).low
 hp = 5
 canvas1 = None
 gameover = False
+win = False
 
 for letter in theWord:
     progress[letter] = False
@@ -46,18 +50,29 @@ def drawBlanks():
                 allLabels[currentLabel].config(text=LabelText)
                 currentLabel += 1
 
+def checkWin():
+    win = True
+    for letter in theWord:
+        if not progress[letter]:
+            return False
+    return win
+
 def onKeyPress(event):
     if (event.char.isalpha()):
-        guess = event.char.lower()
         global lblGuessChar
+        global hp, bg
+        guess = event.char.lower()
         lblGuessChar.config(text=guess.upper())
         iscorrect = ballCheck(guess)
         drawBlanks()
+        if checkWin():
+            hp = 0
+            lbl = tk.Label(canvas1, text= "YOU WIN", font=('', 54))
+            lbl.place(relx=0.5, rely=0.5, anchor="nw")
         if (not iscorrect):
             lbl = tk.Label(canvas1, text =guess,font =('',20))
             lbl.place(relx= random.uniform(0.1,0.9),rely=random.uniform(0.2,0.2), anchor='s')
             previousGuesses.append(lbl);
-            global hp, bg
             hp = hp - 1
             bg.config(file = "images/"+ str(hp) +".png")
             bg = bg.subsample(2)
