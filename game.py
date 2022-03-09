@@ -71,7 +71,7 @@ def onKeyPress(event):
             lbl.place(relx=0.5, rely=0.5, anchor="nw")
         if (not iscorrect):
             lbl = tk.Label(canvas1, text =guess,font =('',20))
-            lbl.place(relx= random.uniform(0.1,0.9),rely=random.uniform(0.2,0.2), anchor='s')
+            lbl.place(relx= random.uniform(0.1,0.9),rely=random.uniform(0.2,0.10), anchor='s')
             previousGuesses.append(lbl);
             hp = hp - 1
             bg.config(file = "images/"+ str(hp) +".png")
