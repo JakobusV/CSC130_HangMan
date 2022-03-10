@@ -1,0 +1,108 @@
+from cgitb import text
+from glob import glob
+import tkinter as tk
+from tkinter import font
+from tkinter.ttk import PanedWindow
+from unicodedata import name
+import os
+
+# from soundcenter import play_sound_file
+import wordBank, sys
+import random
+
+
+# play_sound_file("main")
+newGameBool = True
+allLabels = []
+previousGuesses=[]
+progress = {}
+theWord = wordBank.getRandomWord(wordBank.getListOffDifficulty(sys.argv[1])).lower()
+hp = 5
+canvas1 = None
+gameover = False
+win = False
+
+for letter in theWord:
+    progress[letter] = False
+print(progress)
+
+def ballCheck(guess):
+    for letter in theWord:
+        if (guess == letter):
+            progress[letter] = letter
+            return True
+
+def drawBlanks():
+    if(hp > 0):
+        if (newGameBool):
+            spacing = 0.1
+            for letter in theWord:
+                lbl = tk.Label(canvas1, text="_", font=('', 64))
+                lbl.place(relx = spacing,rely = 0.95, anchor='s')
+                allLabels.append(lbl);
+                spacing += 0.08
+        else:
+            currentLabel = 0
+            for letter in theWord:
+                LabelText = "_"
+                if(progress[letter]):
+                    LabelText = letter.upper()
+                allLabels[currentLabel].config(text=LabelText)
+                currentLabel += 1
+
+def checkWin():
+    win = True
+    for letter in theWord:
+        if not progress[letter]:
+            return False
+    return win
+
+def onKeyPress(event):
+    if (event.char.isalpha()):
+        global lblGuessChar
+        global hp, bg
+        guess = event.char.lower()
+        lblGuessChar.config(text=guess.upper())
+        iscorrect = ballCheck(guess)
+        drawBlanks()
+        if checkWin():
+            hp = 0
+            lbl = tk.Label(canvas1, text= "YOU WIN", font=('', 54))
+            lbl.place(relx=0.5, rely=0.5, anchor="nw")
+        if (not iscorrect):
+            lbl = tk.Label(canvas1, text =guess,font =('',20))
+            lbl.place(relx= random.uniform(0.1,0.9),rely=random.uniform(0.2,0.10), anchor='s')
+            previousGuesses.append(lbl);
+            hp = hp - 1
+            bg.config(file = "images/"+ str(hp) +".png")
+            bg = bg.subsample(2)
+            canvas1.create_image( 30, 40, image = bg, anchor = "nw")
+            if hp == 0:
+                lblCheat = tk.Label(root, text=theWord.upper(), font=('', 32, "bold"), bg="black", fg="red")
+                lblCheat.pack()
+                lblGameOver = tk.Label(canvas1, text="GAME OVER, YOU LOSE", font=('',54))
+                lblGameOver.place(relx=0.37, rely=0.5, anchor="nw")
+
+                
+
+                
+
+
+root = tk.Tk()
+root.attributes('-fullscreen',True)
+bg = tk.PhotoImage(file = "images/"+ str(hp) +".png")
+bg = bg.subsample(2)
+canvas1 = tk.Canvas(root)
+canvas1['bg'] = 'black'
+canvas1.pack(fill = "both", expand = True)
+canvas1.create_image( 30, 40, image = bg, anchor = "nw")
+
+lblGuessChar = tk.Label(root, text="", font=('', 72))
+lblGuessChar.place(relx = 0.9,rely = 0.95, anchor='s')
+pnlProgress = PanedWindow(canvas1, orient="horizontal")
+drawBlanks()
+
+newGameBool=False
+root.bind('<KeyPress>', onKeyPress)
+root.configure(bg="black")
+root.mainloop()

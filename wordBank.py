@@ -1,8 +1,8 @@
 import random
 
 
-listOf4Letter = {"Hard", "Ship", "Game", "Week", "June", "fart", "poop", "Wall", "Hole", "Nail", 
-"Star", "Jeff", "Ring", "Tree", "Ball", "Ammo", "Four", "Fire", "Girl", "Jazz", "File", "Dart", "Page", 
+listOf4Letter = {"Hard", "Ship", "Game", "Week", "fart", "poop", "Wall", "Hole", "Nail", 
+"Star", "Ring", "Tree", "Ball", "Ammo", "Four", "Fire", "Girl", "Jazz", "File", "Dart", "Page", 
 "Sock", "Hate", "Four", "Five", "Main", "Link", "Ammo", "Band", "Case", "Shoe" }
 #print(listOf4Letter)
 
